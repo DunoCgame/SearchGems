@@ -1,0 +1,3 @@
+# SearchGems game JavaScript
+
+

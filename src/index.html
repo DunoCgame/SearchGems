@@ -1,0 +1,237 @@
+<!Doctype HTML>
+<HTML  lang="es">
+<Head>
+<title>SearchGems</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, user-scalable=no,initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0">
+</Head>
+<style>
+#canvas{
+		background:white;	
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		width: 100%;
+		height: 100%;
+}
+
+img{
+display:none;
+}
+
+
+</style>
+<body>
+<center>
+<Canvas id='canvas'></Canvas>
+<audio id='Pico' src="Sonido/Pico.mp3" ></audio>
+<audio id='Derrumbe' src="Sonido/Derrumbe.mp3" ></audio>
+
+
+<audio id='SonidoFondo1' src="Sonido/Intro-juego.mp3"  loop></audio>
+<audio id='SonidoFondo2' src="Sonido/Zona-juego.wav"  loop></audio>
+<audio id='SonidoFondo3' src="Sonido/Opciones-Juego.wav"  loop></audio>
+<audio id='SonidoFondo4' src="Sonido/Pausa-juego.wav"  loop></audio>
+<audio id='SonidoPasos5' src="Sonido/Pasos.mp3"  ></audio>
+
+
+<img id="fondiE1"  src="Entrada/PORTADA-PAR1-eng.png">
+<img id="cieloiE1"  src="Entrada/Cielo.png">
+<img id="tierraE1"  src="Entrada/Tierra.png">
+<img id="tierraE2"  src="Entrada/Tierra2.png">
+
+<img id="Nuve1E1"  src="Entrada/Nuve1.png">
+<img id="Nuve2E1"  src="Entrada/Nuve2.png">
+
+<img id="ARBOL1E1"  src="Entrada/ARBOL1.png">
+<img id="ARBOL2E1"  src="Entrada/ARBOL2.png">
+<img id="ARBOL3E1"  src="Entrada/ARBOL3.png">
+
+
+
+</center>
+</body>
+
+<script language="javascript" src="Variables.js"></script> 
+<script language="javascript" src="Sistema_de_colisiones.js"></script> 
+<script language="javascript" src="Escena1.js"></script>
+<script language="javascript" src="Escena2.js"></script>
+<script language="javascript" src="Escena3.js"></script>
+<script language="javascript" src="debut.js"></script>
+
+<script >
+function EventosTeclado(){
+	function agregarEvento(elemento,nombreEvento,funcion){
+	
+		if(elemento.addEventListener){
+			elemento.addEventListener(nombreEvento,funcion,false);
+		}
+		
+		else if(elemento.attachEvent){		
+			elemento.attachEvent(nombreEvento,funcion);
+		}
+	}
+	agregarEvento(document,"keydown", function(e){	
+		teclado[e.keyCode] = true;
+	});
+	agregarEvento(document,"keyup", function(e){		
+		teclado[e.keyCode] = false;
+	});
+	
+}
+
+
+
+
+ document.onkeydown = TeclaPulsada;
+var teclaCodigo="";
+function TeclaPulsada (tecla){ 
+teclaCodigo = event.keyCode;
+
+ }
+
+var audioPICO = document.getElementById("Pico");
+var audioPICOe = document.getElementById("Pico");
+var audioDERUMBE = document.getElementById("Derrumbe");
+var audioFondo1 = document.getElementById("SonidoFondo1");
+var audioZonajuego = document.getElementById("SonidoFondo2");
+var audioOpciones = document.getElementById("SonidoFondo3");
+var audioFondo4 = document.getElementById("SonidoFondo4");
+
+var audioPasos = document.getElementById("SonidoPasos5");
+
+
+			 
+setInterval(function(){
+Seg++;
+fps=0; 
+aps=0;}, 1000);
+
+
+
+
+	
+	
+	function Main(){
+	
+	document.addEventListener("resize", Main);
+	if(EstadoSonido==false){
+					
+		audioPICO.pause();
+		audioPICOe.pause();
+		audioDERUMBE.pause();
+		audioFondo1.pause();
+	audioZonajuego.pause();
+	 audioOpciones.pause();
+	 audioFondo4.pause();
+	 audioPasos.pause();
+				 
+				 
+			  }
+	
+	
+EventosTeclado();
+ctx.clearRect(0, 0, W, H);	
+fps++;
+aps++; 	
+
+
+
+switch (Escena) {
+
+case 1:
+ Escena1();	 
+
+	if(EstadoSonido==true){
+			audioFondo1.play();
+			audioZonajuego.pause();
+			audioOpciones.pause();
+		}
+		
+	
+break;
+
+case 2:
+ if(EstadoSonido==true){
+audioFondo1.pause();
+audioZonajuego.play();
+audioOpciones.pause();
+}
+fondo_juego();
+derumb();
+Barra_choque2();
+Barra_choque();
+colision_borde();
+colision_obj();
+barrachoque2Colision();
+barrachoqueColision();
+probabilidad();
+cambio_Gema();
+Vida_jugador();
+Mover();
+Control_Principal();
+GemasInferior();
+GEMA();
+texto();
+animacionVida();
+AnimacionDiamante();
+Pausar();
+
+
+break;
+
+case 3:
+if(EstadoSonido==true){
+//opciones
+audioFondo1.pause();
+audioZonajuego.pause();
+audioOpciones.play();
+}
+	
+TeclaPress();
+Escena3();
+break;
+
+
+
+default:
+
+<!-- ctx.save(); -->
+<!-- ctx.fillStyle="red"; -->
+<!-- ctx.fillRect(0,0,100,100); -->
+<!-- ctx.restore(); -->
+
+}
+
+
+ <!-- Debug(); -->
+
+
+
+requestAnimationFrame(Main);	
+
+
+	}
+	
+	Main();
+
+	
+	
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</HTML>
